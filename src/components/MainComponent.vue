@@ -16,7 +16,7 @@
       <div
         v-for="item in characterList"
         :key="item.id"
-        class="col-6 col-md-4 col-lg-3 my-3"
+        class="col-6 col-md-4 col-lg-3 my-3 text-center"
       >
         <img :src="item.image" :alt="item.name" class="img-fluid" />
         <h4 class="mt-3">{{ item.name }}</h4>
@@ -31,7 +31,6 @@
 
 <script>
 import LoaderComponent from "./LoaderComponent.vue";
-// import CardComponent from "./CardComponent.vue";
 import FooterComponent from "./FooterComponent.vue";
 import axios from "axios";
 
@@ -39,7 +38,6 @@ export default {
   name: "MainComponent",
   components: {
     LoaderComponent,
-    // CardComponent,
     FooterComponent,
   },
   data() {

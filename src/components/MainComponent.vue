@@ -1,6 +1,4 @@
-<template>
-<section class="container">
-    <!-- 
+ <!-- 
       gender: "Male"
       id: 1
       image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg"
@@ -10,53 +8,82 @@
       status: "Alive"
       type: "Human" 
     -->
+<template>
+  <section class="container d-flex flex-wrap gap-5 justify-content-center">
     <loader-component v-if="loading" />
+
     <div class="row">
-      <div v-for="character in characterList" :key="character.id" class="col-6 col-md-4 col-lg-3">
-        <card-component :item="character" />
+      <div
+        v-for="item in characterList"
+        :key="item.id"
+        class="col-6 col-md-4 col-lg-3 my-3"
+      >
+        <img :src="item.image" :alt="item.name" class="img-fluid" />
+        <h4 class="mt-3">{{ item.name }}</h4>
+        <div>{{ item.origin }}</div>
+        <div class="fw-bold">{{ item.species }}</div>
       </div>
     </div>
-    <footer-component :len="characterList.length" v-if="!loading" />
 
-</section>
- 
-</template>
+    <footer-component v-if="!loading" :len="characterList.length" />
+  </section>
+</template> 
 
 <script>
-import LoaderComponent from './LoaderComponent.vue';
-import CardComponent from './CardComponent.vue';
-import FooterComponent from './FooterComponent.vue';
-import axios from 'axios';
+import LoaderComponent from "./LoaderComponent.vue";
+// import CardComponent from "./CardComponent.vue";
+import FooterComponent from "./FooterComponent.vue";
+import axios from "axios";
 
 export default {
-  name: 'MainComponent',
+  name: "MainComponent",
   components: {
     LoaderComponent,
-    CardComponent,
-    FooterComponent
-    
+    // CardComponent,
+    FooterComponent,
   },
-  data(){
+  data() {
     return {
       characterList: [],
-      apiPath:'https://api.sampleapis.com/rickandmorty/',
+      apiPath: "https://api.sampleapis.com/rickandmorty/",
       loading: false,
-    }
+    };
   },
-  mounted(){
+  mounted() {
     this.loading = true;
-    axios.get(this.apiPath + 'characters').then((res)=>{
-      console.log(res)
-      this.characterList = [...res.data];
-      this.loading = false;
-    }).catch((error)=> {
-      console.log(error)
-      this.loading = false;
-    });
-  }
-}
+    axios
+      .get(this.apiPath + "characters")
+      .then((res) => {
+        console.log(res);
+        this.characterList = [...res.data];
+        this.loading = false;
+      })
+      .catch((error) => {
+        console.log(error);
+        this.loading = false;
+      });
+  },
+};
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/style/variable.scss";
 
+h4 {
+  text-transform: uppercase;
+  &:after {
+    content: "";
+    display: block;
+    width: 30%;
+    height: 2px;
+    margin: 1rem auto;
+    background: currentColor;
+  }
+}
+img {
+  width: 100%;
+  border-radius: 50%;
+  box-shadow: 0 0 6px 3px rgba(#000, 0.15);
+}
 </style>
+

@@ -1,31 +1,28 @@
 <template>
   <div id="app">
-    <HeaderComponent :title="titolo"/>
+    <header-component :title="titolo" />
     <div>
-    <MainComponent />
-    <CardComponent />
+      <main-component />
     </div>
   </div>
 </template>
 
 <script>
-import HeaderComponent from './components/HeaderComponent.vue'; 
-import MainComponent from './components/MainComponent.vue'
-import FooterComponent from './components/FooterComponent.vue'
+import HeaderComponent from "./components/HeaderComponent.vue";
+import MainComponent from "./components/MainComponent.vue";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     HeaderComponent,
     MainComponent,
-    FooterComponent,
   },
-  data(){
+  data() {
     return {
       titolo: "Rick and Morty",
-    }
-  }
-}
+    };
+  },
+};
 </script>
 
 <style lang="scss">

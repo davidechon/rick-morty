@@ -10,11 +10,12 @@
     -->
 <template>
   <section class="container d-flex flex-wrap gap-5 justify-content-center">
+    <search-bar @mySearch="setSearchText"/>
     <loader-component v-if="loading" />
 
     <div class="row">
       <div
-        v-for="item in characterList"
+        v-for="item in filteredList"
         :key="item.id"
         class="col-6 col-md-4 col-lg-3 my-3 text-center"
       >
@@ -25,13 +26,14 @@
       </div>
     </div>
 
-    <footer-component v-if="!loading" :len="characterList.length" />
+    <footer-component v-if="!loading" :len="filteredList.length" />
   </section>
 </template> 
 
 <script>
 import LoaderComponent from "./LoaderComponent.vue";
 import FooterComponent from "./FooterComponent.vue";
+import SearchBar from "./SearchBar.vue";
 import axios from "axios";
 
 export default {
@@ -39,16 +41,31 @@ export default {
   components: {
     LoaderComponent,
     FooterComponent,
+    SearchBar,
   },
   data() {
     return {
       characterList: [],
+      // filteredList:[],
+      searchText:'',
       apiPath: "https://api.sampleapis.com/rickandmorty/",
       loading: false,
-    };
+    }
   },
-  mounted() {
+  methods:{
+    setSearchText(txt){
+      this.searchText = txt;
+    }
+  },
+  computed:{
+    filteredList(){
+      if(this.searchText==='')return this.characterList;
+      return this.characterList.filter((item)=>item.name.toLowerCase().includes(this.searchText.toLowerCase())); 
+    }
+  },
+  mounted(){
     this.loading = true;
+    setTimeout(()=>{
     axios
       .get(this.apiPath + "characters")
       .then((res) => {
@@ -59,7 +76,8 @@ export default {
       .catch((error) => {
         console.log(error);
         this.loading = false;
-      });
+        })
+     },1000); 
   },
 };
 </script>
